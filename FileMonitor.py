@@ -45,7 +45,7 @@ class FileMonitor:
 
     # Keep polling files for changes.
     def poll_changes(self):
-        while True:
+        for i in range(12):
             self.scan_directory(self.directory)  # Start with scanning the root directory.
             time.sleep(1)
             self.map_new()      # Check if new files where added during the polling.
@@ -85,7 +85,7 @@ class FileMonitor:
             if isinstance(value, tuple):
                 self.print_directory(value[0])
             else:
-                print(key, value, '\n')
+                print(key, value)
 
 
 # Main testing method.
