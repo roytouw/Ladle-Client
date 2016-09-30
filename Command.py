@@ -46,6 +46,8 @@ class Command:
             elif prompt_input == 'stop':
                 self.fileMonitor.stop_polling = True
                 print('Polling stopped.')
+                self.poll_thread = \
+                    threading.Thread(target=self.fileMonitor.poll_changes)
             elif prompt_input == 'printdir':
                 self.fileMonitor.print_directory()
             else:

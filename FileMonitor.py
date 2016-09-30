@@ -48,7 +48,6 @@ class FileMonitor:
     def poll_changes(self):
         self.stop_polling = False
         while not self.stop_polling:
-            print(self.stop_polling)
             self.scan_directory(self.directory)  # Start with scanning the root directory.
             time.sleep(1)
             self.map_new()      # Check if new files where added during the polling.
