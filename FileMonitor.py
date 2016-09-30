@@ -13,6 +13,7 @@ class FileMonitor:
         self.directory = self.map_directory()
         self.fileWriter = FileWriter()
         self.substitute_flags()
+        self.stop_polling = False
 
     # Recursive method to map all files with last modified time
     def map_directory(self, path=os.getcwd()):
@@ -45,7 +46,9 @@ class FileMonitor:
 
     # Keep polling files for changes.
     def poll_changes(self):
-        for i in range(12):
+        self.stop_polling = False
+        while not self.stop_polling:
+            print(self.stop_polling)
             self.scan_directory(self.directory)  # Start with scanning the root directory.
             time.sleep(1)
             self.map_new()      # Check if new files where added during the polling.

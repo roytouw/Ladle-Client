@@ -34,8 +34,9 @@ class Command:
                 print('Commands:')
                 print('* substitute to substitute all flags in directory.')
                 print('* run to keep polling the directory for flags.')
+                print('* stop to halt polling the directory for flags.')
                 print('* printdir to print the directory.')
-                print('* exit to stop.')
+                print('* exit to exit.')
             elif prompt_input == 'substitute':
                 self.fileMonitor.substitute_flags()
             elif prompt_input == 'run':
@@ -43,7 +44,8 @@ class Command:
                 print('Now polling files for changes.')
                 print('Type stop to halt polling.')
             elif prompt_input == 'stop':
-                print('This is not supported yet.')
+                self.fileMonitor.stop_polling = True
+                print('Polling stopped.')
             elif prompt_input == 'printdir':
                 self.fileMonitor.print_directory()
             else:
