@@ -17,9 +17,8 @@ class Command:
             command_handler.start()
             self.poll_thread = \
                 threading.Thread(target=self.fileMonitor.poll_changes)
-            print('now it works.')
         except:
-            print('nty mate.')
+            print('An error occurred starting the threads.')
 
     # Starts listening for commands.
     def launch(self):
