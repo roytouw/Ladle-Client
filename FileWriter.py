@@ -50,6 +50,10 @@ class FileWriter:
         except UnicodeDecodeError:
             print(file, 'Encoding not supported!')
 
+    # Creating file with given id and name.
+    def create_file(self, id, name=None):
+        print('Creating file', id, name)
+
 # Main testing method.
 if __name__ == '__main__':
     test = FileWriter()

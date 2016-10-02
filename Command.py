@@ -2,6 +2,7 @@ import os
 import threading
 
 from FileMonitor import FileMonitor
+from FileWriter import FileWriter
 
 
 class Command:
@@ -10,6 +11,7 @@ class Command:
         self.exit = False
         self.fileMonitor = FileMonitor()
         self.poll_thread = None
+        self.fileWriter = FileWriter()
 
     def start_threads(self):
         try:
@@ -36,6 +38,8 @@ class Command:
                 print('* run to keep polling the directory for flags.')
                 print('* stop to halt polling the directory for flags.')
                 print('* printdir to print the directory.')
+                print('* pull id (name) to pull file with given id.')
+                print('     e.g. pull 7 test.py')
                 print('* exit to exit.')
             elif prompt_input == 'substitute':
                 self.fileMonitor.substitute_flags()
@@ -50,6 +54,16 @@ class Command:
                     threading.Thread(target=self.fileMonitor.poll_changes)
             elif prompt_input == 'printdir':
                 self.fileMonitor.print_directory()
+            elif prompt_input.split(' ')[0] == 'pull':
+                try:
+                    if len(prompt_input.split(' ')) == 3:   # If both id and name are given.
+                        self.fileWriter.create_file(prompt_input.split(' ')[1],
+                                                    prompt_input.split(' ')[2])
+                    else:                                   # If only the required is is given.
+                        self.fileWriter.create_file(prompt_input.split(' ')[1])
+                except IndexError:
+                    print('Pull file error.')
+                    print('No file id given!')
             else:
                 print('Command not found, try again...')
 
