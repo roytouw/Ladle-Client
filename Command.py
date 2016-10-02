@@ -13,6 +13,7 @@ class Command:
         self.poll_thread = None
         self.fileWriter = FileWriter()
 
+    # Make threads for the command handler and FileMonitor.
     def start_threads(self):
         try:
             command_handler = threading.Thread(target=self.launch)
@@ -33,14 +34,7 @@ class Command:
                 self.exit_ladle()
                 break
             elif prompt_input == 'help':
-                print('Commands:')
-                print('* substitute to substitute all flags in directory.')
-                print('* run to keep polling the directory for flags.')
-                print('* stop to halt polling the directory for flags.')
-                print('* printdir to print the directory.')
-                print('* pull id (name) to pull file with given id.')
-                print('     e.g. pull 7 test.py')
-                print('* exit to exit.')
+                self.help()
             elif prompt_input == 'substitute':
                 self.fileMonitor.substitute_flags()
             elif prompt_input == 'run':
@@ -55,17 +49,33 @@ class Command:
             elif prompt_input == 'printdir':
                 self.fileMonitor.print_directory()
             elif prompt_input.split(' ')[0] == 'pull':
-                try:
-                    if len(prompt_input.split(' ')) == 3:   # If both id and name are given.
-                        self.fileWriter.create_file(prompt_input.split(' ')[1],
-                                                    prompt_input.split(' ')[2])
-                    else:                                   # If only the required is is given.
-                        self.fileWriter.create_file(prompt_input.split(' ')[1])
-                except IndexError:
-                    print('Pull file error.')
-                    print('No file id given!')
+                self.pull(prompt_input)
             else:
                 print('Command not found, try again...')
+
+    # Print out information to the console.
+    def help(self):
+        print('Commands:')
+        print('* substitute to substitute all flags in directory.')
+        print('* run to keep polling the directory for flags.')
+        print('* stop to halt polling the directory for flags.')
+        print('* printdir to print the directory.')
+        print('* pull id (name) to pull file with given id.')
+        print('     e.g. pull 7 test.py')
+        print('* exit to exit.')
+
+    # Pull a file with required given id.
+    # File will be made with optional given name, otherwise default name is set.
+    def pull(self, prompt_input):
+        try:
+            if len(prompt_input.split(' ')) == 3:  # If both id and name are given.
+                self.fileWriter.create_file(prompt_input.split(' ')[1],
+                                            prompt_input.split(' ')[2])
+            else:  # If only the required is is given.
+                self.fileWriter.create_file(prompt_input.split(' ')[1])
+        except IndexError:
+            print('Pull file error.')
+            print('No file id given!')
 
     def exit_ladle(self):
         print('Exiting...')
