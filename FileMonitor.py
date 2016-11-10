@@ -12,7 +12,6 @@ class FileMonitor:
         print('Mapping directory.')
         self.directory = self.map_directory()
         self.fileWriter = FileWriter()
-        self.substitute_flags()
         self.stop_polling = False
 
     # Recursive method to map all files with last modified time
